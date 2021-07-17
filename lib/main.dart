@@ -1,40 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sms/sms.dart';
-import 'package:workmanager/workmanager.dart';
 
-const fetchBackground = "fetchBackground";
-Workmanager _workmanager = new Workmanager();
-void callbackDispatcher() {
-  _workmanager.executeTask((task, inputData) async {
-    switch (task) {
-      case fetchBackground:
-        break;
-    }
-    return Future.value(true);
-  });
-}
 
 void main() {
-
-// needs to be initialized before using workmanager package
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // initialize Workmanager with the function which you want to invoke after any periodic time
-  _workmanager.initialize(callbackDispatcher);
-
-  // Periodic task registration
-  _workmanager.registerPeriodicTask(
-    "2",
-    // use the same task name used in callbackDispatcher function for identifying the task
-    // Each task must have a unique name if you want to add multiple tasks;
-    fetchBackground,
-    // When no frequency is provided the default 15 minutes is set.
-    // Minimum frequency is 15 min.
-    // Android will automatically change your frequency to 15 min if you have configured a lower frequency than 15 minutes.
-    frequency: Duration(hours: 1), // change duration according to your needs
-  );
-
   runApp(MaterialApp(
     home: Home(),
   ));
@@ -49,7 +19,7 @@ class _HomeState extends State<Home> {
   final myController = new TextEditingController();
   String dropdownValue = 'SIM 1';
   bool _validate = false;
-  String status;
+  late String status;
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -100,9 +70,9 @@ class _HomeState extends State<Home> {
             height: 2,
             color: Colors.deepPurpleAccent,
           ),
-          onChanged: (String newValue) {
+          onChanged: (String? newValue) {
             setState(() {
-              dropdownValue = newValue;
+              dropdownValue = newValue!;
             });
           },
           items: <String>['SIM 1','SIM 2',]
@@ -135,7 +105,7 @@ class _HomeState extends State<Home> {
             Divider(),
             Text("Hello"),
             Divider(),
-            RaisedButton(
+            ElevatedButton(
               onPressed: () {
                 setState(() {
                   myController.text.isEmpty ? _validate = true : _validate = false;
@@ -163,9 +133,10 @@ class _HomeState extends State<Home> {
                   }
                 });
               },
-              child: Text('Send'),
-              textColor: Colors.white,
-              color: Colors.blueAccent,
+              child: Text('Send',
+              style: TextStyle(color: Colors.white,
+              backgroundColor: Colors.blueAccent),
+            )
             )
           ],
         ),

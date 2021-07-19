@@ -1,12 +1,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:message_app/newPackage.dart';
 import 'package:sms/sms.dart';
 
 
 void main() {
   runApp(MaterialApp(
-    home: Home(),
+    initialRoute: "/",
+    routes: {
+      "/":(context)=>Home(),
+      "/newpackage":(context)=>MyApp(),
+    },
   ));
 }
 
@@ -136,6 +141,13 @@ class _HomeState extends State<Home> {
               child: Text('Send',
               style: TextStyle(color: Colors.white,
               backgroundColor: Colors.blueAccent),
+            )
+            ),
+            ElevatedButton(onPressed: (){
+              Navigator.pushNamed(context, "/newpackage");
+            }, child: Text('GO TO NEW SCREEN',
+              style: TextStyle(color: Colors.white,
+                  backgroundColor: Colors.blueAccent),
             )
             )
           ],
